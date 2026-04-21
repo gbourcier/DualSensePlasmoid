@@ -2,7 +2,8 @@
 
 A KDE Plasma 6 panel widget that shows your DualSense controller's battery level and lets you power it off over Bluetooth.
 
-![Panel screenshot](screenshots/panel.png)
+<img width="551" height="559" alt="image" src="https://github.com/user-attachments/assets/cd006402-078c-44a6-bbc3-83b83175c30a" />
+
 
 ## Features
 

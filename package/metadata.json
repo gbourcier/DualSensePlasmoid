@@ -1,0 +1,19 @@
+{
+    "KPlugin": {
+        "Authors": [
+            {
+                "Email": "gmelanson.bourcier@gmail.com",
+                "Name": "Gabriel"
+            }
+        ],
+        "Category": "System Information",
+        "Description": "Monitor your DualSense controller battery and power it off",
+        "Icon": "input-gaming",
+        "Id": "com.github.gabriel.dualsense",
+        "License": "MIT",
+        "Name": "DualSense Controller",
+        "Version": "0.1.0",
+        "Website": "https://github.com/gabriel/DualSensePlasmoid"
+    },
+    "X-Plasma-API-Minimum-Version": "6.0"
+}

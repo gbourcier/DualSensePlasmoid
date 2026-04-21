@@ -1,5 +1,6 @@
 import QtQuick
 import QtQuick.Layouts
+import QtQuick.Dialogs
 import org.kde.plasma.plasmoid
 import org.kde.plasma.components as PlasmaComponents
 import org.kde.plasma.plasma5support as Plasma5Support
@@ -82,6 +83,15 @@ Item {
             font.pointSize: Kirigami.Theme.smallFont.pointSize
         }
 
+        // ── Lightbar color ────────────────────────────────────────────────
+        PlasmaComponents.Button {
+            Layout.fillWidth: true
+            text: "Lightbar Color"
+            icon.name: "color-picker"
+            enabled: root.controllerPresent
+            onClicked: colorDialog.open()
+        }
+
         // ── Power-off button ──────────────────────────────────────────────
         PlasmaComponents.Button {
             Layout.fillWidth: true
@@ -116,12 +126,23 @@ Item {
             }
         }
 
-        // ── Refresh button ────────────────────────────────────────────────
-        PlasmaComponents.Button {
-            Layout.fillWidth: true
-            text: "Refresh"
-            icon.name: "view-refresh"
-            onClicked: root.pollNow()
+        ColorDialog {
+            id: colorDialog
+            onAccepted: lightbarSource.setColor(selectedColor)
         }
+
+        Plasma5Support.DataSource {
+            id: lightbarSource
+            engine: "executable"
+            connectedSources: []
+            onNewData: function(source, data) { lightbarSource.disconnectSource(source) }
+            function setColor(c) {
+                var r = Math.round(c.r * 255)
+                var g = Math.round(c.g * 255)
+                var b = Math.round(c.b * 255)
+                lightbarSource.connectSource("dualsensectl lightbar " + r + " " + g + " " + b)
+            }
+        }
+
     }
 }

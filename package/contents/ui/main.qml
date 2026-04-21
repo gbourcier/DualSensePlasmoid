@@ -100,5 +100,7 @@ PlasmoidItem {
                      ? PlasmaCore.Types.ActiveStatus
                      : PlasmaCore.Types.PassiveStatus
 
+    onExpandedChanged: if (expanded) pollNow()
+
     function pollNow() { batterySource.poll() }
 }

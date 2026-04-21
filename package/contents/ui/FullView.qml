@@ -28,7 +28,7 @@ Item {
 
             Kirigami.Icon {
                 source: plasmoid.icon
-                opacity: plasmoid.rootItem.controllerPresent ? 1.0 : 0.4
+                opacity: root.controllerPresent ? 1.0 : 0.4
                 Layout.preferredWidth:  Kirigami.Units.iconSizes.medium
                 Layout.preferredHeight: Kirigami.Units.iconSizes.medium
             }
@@ -44,10 +44,10 @@ Item {
 
                 PlasmaComponents.Label {
                     text: {
-                        if (!plasmoid.rootItem.controllerPresent)
+                        if (!root.controllerPresent)
                             return "Not connected"
-                        var s = plasmoid.rootItem.batteryPercent + "%"
-                        if (plasmoid.rootItem.isCharging) s += " — charging"
+                        var s = root.batteryPercent + "%"
+                        if (root.isCharging) s += " — charging"
                         return s
                     }
                     font.pointSize: Kirigami.Theme.smallFont.pointSize
@@ -58,17 +58,17 @@ Item {
 
         // ── Battery bar ───────────────────────────────────────────────────
         PlasmaComponents.ProgressBar {
-            visible: plasmoid.rootItem.controllerPresent
+            visible: root.controllerPresent
             Layout.fillWidth: true
-            value: plasmoid.rootItem.controllerPresent
-                   ? plasmoid.rootItem.batteryPercent / 100.0
+            value: root.controllerPresent
+                   ? root.batteryPercent / 100.0
                    : 0
         }
 
         // ── Error message ─────────────────────────────────────────────────
         PlasmaComponents.Label {
-            visible: plasmoid.rootItem.lastError !== ""
-            text:    plasmoid.rootItem.lastError
+            visible: root.lastError !== ""
+            text:    root.lastError
             color:   Kirigami.Theme.negativeTextColor
             wrapMode: Text.WordWrap
             Layout.fillWidth: true
@@ -80,32 +80,31 @@ Item {
             Layout.fillWidth: true
             text: "Power Off Controller"
             icon.name: "system-shutdown"
-            enabled: plasmoid.rootItem.controllerPresent
+            enabled: root.controllerPresent
             onClicked: {
-                plasmoid.rootItem.lastError = ""
+                root.lastError = ""
                 powerOffSource.powerOff()
-                plasmoid.expanded = false
+                root.expanded = false
             }
 
-            // Access the power-off DataSource from main.qml via rootItem
             Plasma5Support.DataSource {
                 id: powerOffSource
                 engine: "executable"
                 connectedSources: []
 
                 onNewData: function(source, data) {
-                    disconnectSource(source)
+                    powerOffSource.disconnectSource(source)
                     var exit = data["exit code"] !== undefined ? data["exit code"] : 0
                     if (exit !== 0) {
-                        plasmoid.rootItem.lastError =
+                        root.lastError =
                             "power-off failed — is the controller on Bluetooth?"
                     } else {
-                        plasmoid.rootItem.lastError = ""
+                        root.lastError = ""
                     }
                 }
 
                 function powerOff() {
-                    connectSource("dualsensectl power-off")
+                    powerOffSource.connectSource("dualsensectl power-off")
                 }
             }
         }
@@ -115,7 +114,7 @@ Item {
             Layout.fillWidth: true
             text: "Refresh"
             icon.name: "view-refresh"
-            onClicked: plasmoid.rootItem.pollNow()
+            onClicked: root.pollNow()
         }
     }
 }

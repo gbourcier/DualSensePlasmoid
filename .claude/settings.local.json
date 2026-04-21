@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//root/.local/share/plasma/**)",
+      "Read(//home/gabriel/.local/share/plasma/plasmoids/**)",
+      "Read(//usr/share/plasma/plasmoids/**)",
+      "Bash(kpackagetool6 --type Plasma/Applet --list)",
+      "Bash(command -v jq)",
+      "Bash(jq --version)",
+      "Bash(command -v python3)",
+      "Bash(python3 *)"
+    ]
+  }
+}

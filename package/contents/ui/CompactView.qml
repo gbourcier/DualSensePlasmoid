@@ -21,21 +21,21 @@ Item {
         Kirigami.Icon {
             id: controllerIcon
             source: plasmoid.icon
-            opacity: plasmoid.rootItem.controllerPresent ? 1.0 : 0.4
+            opacity: root.controllerPresent ? 1.0 : 0.4
             Layout.preferredWidth:  Kirigami.Units.iconSizes.small
             Layout.preferredHeight: Kirigami.Units.iconSizes.small
         }
 
         PlasmaComponents.Label {
             id: percentLabel
-            visible: plasmoid.rootItem.controllerPresent
-            text:    plasmoid.rootItem.batteryPercent + "%"
+            visible: root.controllerPresent
+            text:    root.batteryPercent + "%"
             font.pointSize: Kirigami.Theme.smallFont.pointSize
         }
     }
 
     MouseArea {
         anchors.fill: parent
-        onClicked: plasmoid.expanded = !plasmoid.expanded
+        onClicked: root.expanded = !root.expanded
     }
 }

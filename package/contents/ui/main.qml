@@ -25,7 +25,7 @@ PlasmoidItem {
         onNewData: function(source, data) {
             var exit = data["exit code"] !== undefined ? data["exit code"] : 0
             var out  = (data["stdout"] || "").trim()
-            disconnectSource(source)
+            batterySource.disconnectSource(source)
 
             if (exit !== 0 || out === "") {
                 root.controllerPresent = false
@@ -34,8 +34,8 @@ PlasmoidItem {
                 return
             }
 
-            // dualsensectl battery output:  "Battery level: 72%, discharging"
-            var m = out.match(/(\d+)%/)
+            // dualsensectl battery output: "95 discharging" (newer) or "Battery level: 72%, discharging" (older)
+            var m = out.match(/(\d+)\s*%?/)
             if (!m) {
                 root.controllerPresent = false
                 root.batteryPercent    = -1
@@ -43,13 +43,14 @@ PlasmoidItem {
             }
 
             root.batteryPercent   = parseInt(m[1], 10)
-            root.isCharging       = /charg/i.test(out)
+            // \b word boundary avoids matching "discharging"
+            root.isCharging       = /\bcharging\b/i.test(out)
             root.controllerPresent = true
             root.lastError        = ""
         }
 
         function poll() {
-            connectSource("dualsensectl battery")
+            batterySource.connectSource("dualsensectl battery")
         }
     }
 
@@ -60,7 +61,7 @@ PlasmoidItem {
         connectedSources: []
 
         onNewData: function(source, data) {
-            disconnectSource(source)
+            powerOffSource.disconnectSource(source)
             var exit = data["exit code"] !== undefined ? data["exit code"] : 0
             if (exit !== 0) {
                 root.lastError = "power-off failed (is controller on Bluetooth?)"
@@ -72,7 +73,7 @@ PlasmoidItem {
         }
 
         function powerOff() {
-            connectSource("dualsensectl power-off")
+            powerOffSource.connectSource("dualsensectl power-off")
         }
     }
 
@@ -87,8 +88,8 @@ PlasmoidItem {
     }
 
     // ── Tooltip ───────────────────────────────────────────────────────────
-    Plasmoid.toolTipMainText: "DualSense"
-    Plasmoid.toolTipSubText: {
+    toolTipMainText: "DualSense"
+    toolTipSubText: {
         if (!root.controllerPresent) return "Controller not connected"
         var s = root.batteryPercent + "%"
         if (root.isCharging) s += " — charging"

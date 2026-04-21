@@ -89,14 +89,13 @@ PlasmoidItem {
     }
 
     // ── Tooltip ───────────────────────────────────────────────────────────
-    toolTipMainText: "DualSense"
+    toolTipMainText: Plasmoid.title
     toolTipSubText: {
         if (!root.controllerPresent) return "Controller not connected"
         var s = root.batteryPercent + "%"
         if (root.isCharging) s += " — charging"
         return s
     }
-    Plasmoid.icon: "input-gamepad-symbolic"
     Plasmoid.status: root.controllerPresent
                      ? PlasmaCore.Types.ActiveStatus
                      : PlasmaCore.Types.PassiveStatus

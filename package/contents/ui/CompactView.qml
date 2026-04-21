@@ -11,7 +11,7 @@ Item {
     Kirigami.Icon {
         id: controllerIcon
         anchors.fill: parent
-        source: "input-gamepad-symbolic"
+        source: Plasmoid.icon
         isMask: true
         opacity: root.controllerPresent ? 1.0 : 0.4
         color: {

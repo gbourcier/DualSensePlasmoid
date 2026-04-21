@@ -27,7 +27,7 @@ Item {
             spacing: Kirigami.Units.smallSpacing
 
             Kirigami.Icon {
-                source: "input-gamepad-symbolic"
+                source: Plasmoid.icon
                 isMask: true
                 opacity: root.controllerPresent ? 1.0 : 0.4
                 color: {
@@ -45,7 +45,7 @@ Item {
                 Layout.fillWidth: true
 
                 PlasmaComponents.Label {
-                    text: "DualSense"
+                    text: Plasmoid.title
                     font.weight: Font.Medium
                 }
 

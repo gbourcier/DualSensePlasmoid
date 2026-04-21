@@ -3,12 +3,12 @@
         "Authors": [
             {
                 "Email": "gmelanson.bourcier@gmail.com",
-                "Name": "Gabriel"
+                "Name": "Gabriel Bourcier"
             }
         ],
         "Category": "System Information",
         "Description": "Monitor your DualSense controller battery and power it off",
-        "Icon": "input-gaming",
+        "Icon": "qjoypad-tray",
         "Id": "com.github.gabriel.dualsense",
         "License": "MIT",
         "Name": "DualSense Controller",

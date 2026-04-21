@@ -27,8 +27,15 @@ Item {
             spacing: Kirigami.Units.smallSpacing
 
             Kirigami.Icon {
-                source: plasmoid.icon
+                source: "input-gamepad-symbolic"
+                isMask: true
                 opacity: root.controllerPresent ? 1.0 : 0.4
+                color: {
+                    if (!root.controllerPresent) return Kirigami.Theme.textColor
+                    if (root.batteryPercent < 5)  return Kirigami.Theme.negativeTextColor
+                    if (root.batteryPercent < 30) return Kirigami.Theme.neutralTextColor
+                    return Kirigami.Theme.textColor
+                }
                 Layout.preferredWidth:  Kirigami.Units.iconSizes.medium
                 Layout.preferredHeight: Kirigami.Units.iconSizes.medium
             }

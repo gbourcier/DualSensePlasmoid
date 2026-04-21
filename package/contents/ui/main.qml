@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Layouts
 import org.kde.plasma.plasmoid
 import org.kde.plasma.plasma5support as Plasma5Support
+import org.kde.plasma.core as PlasmaCore
 
 PlasmoidItem {
     id: root
@@ -95,23 +96,10 @@ PlasmoidItem {
         if (root.isCharging) s += " — charging"
         return s
     }
-    Plasmoid.icon: batteryIconName()
+    Plasmoid.icon: "input-gamepad-symbolic"
+    Plasmoid.status: root.controllerPresent
+                     ? PlasmaCore.Types.ActiveStatus
+                     : PlasmaCore.Types.PassiveStatus
 
     function pollNow() { batterySource.poll() }
-
-    function batteryIconName() {
-        if (!root.controllerPresent) return "input-gaming"
-
-        var pct = root.batteryPercent
-        var suffix = root.isCharging ? "-charging" : ""
-        var level
-
-        if      (pct > 80) level = "full"
-        else if (pct > 55) level = "good"
-        else if (pct > 30) level = "medium"
-        else if (pct > 10) level = "low"
-        else               level = "caution"
-
-        return "battery-" + level + suffix + "-symbolic"
-    }
 }
